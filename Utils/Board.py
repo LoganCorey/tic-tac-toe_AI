@@ -170,4 +170,25 @@ class Board:
     def copy(self):
         return Board(setup=False, board_state=self.board_state)
 
+    def encode_board_state(self):
+        """
+        transforms the board_sate into a pair of 1s and 0s so that
+        the neural network can read it better
+        1: ai moved here
+        2: opponent moved here
+        0: no one moved here
+        :return:
+        """
+        ai_board_state = []
+        for row in self.board_state:
+            for move in row:
+                if move is None:
+                    ai_board_state.append(0)
+                elif move is not None:
+                    if move.player.mark == "O":
+                        ai_board_state.append(1)
+                    elif move.player.mark == "X":
+                        ai_board_state.append(2)
+        return ai_board_state
+
 
